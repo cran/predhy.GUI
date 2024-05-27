@@ -1,5 +1,5 @@
 # * Author:    Yang.Xu 
-# * Created:   11:40 PM Sunday, 20 November 2022
+# * Created:   11:40 PM Monday, 22 April 2024
 # * Copyright: AS IS
 #' @importFrom stats cor dist optim predict na.omit var 
 #' @importFrom utils write.csv  
@@ -7,7 +7,7 @@
 #' @importFrom BGLR BGLR
 #' @importFrom glmnet cv.glmnet glmnet 
 #' @importFrom xgboost xgboost 
-#' @importFrom randomForest randomForest 
+#' @importFrom lightgbm lightgbm
 #' @importFrom doParallel registerDoParallel
 #' @importFrom parallel detectCores makeCluster stopCluster
 #' @importFrom foreach %dopar% foreach
