@@ -1,4 +1,4 @@
-0c7d5eccacc2472be8e215987c6fc0d1 *DESCRIPTION
+bffbc05904e3ddb446728f1b3c5f06d0 *DESCRIPTION
 676fc3232a3daa3c14ba6f58068a641c *NAMESPACE
 eebafa07d3ddb5e196b236f07bd9560c *R/hybrid_phe.R
 38d5acb0f7adcc9ec46752c27d330b83 *R/import_packages.R
@@ -9,15 +9,6 @@ fb5f4b9543848d83b5bd79663cbd3942 *R/input_geno1.R
 106cade93de43027fb1574093eb48e35 *data/input_geno.rda
 6c670a179191968c1788d628966cd68b *data/input_geno1.rda
 76cc2e94d4105e4ab333afe11858a00b *inst/doc/Introduction.pdf
-403ca0ba8952f4f73b99a660c05af062 *inst/extdata/female_name.csv
-313131f5a68092e0ad55254111b072b7 *inst/extdata/fix.csv
-df0bda38e68499c340d04893448d6f64 *inst/extdata/hybrid_phe.csv
-863a28e51417b4ff61115bfd16d59331 *inst/extdata/inbred_gen.csv
-57e9dc8998e02f82d4454dfc84fe3ce2 *inst/extdata/input_geno.hmp.txt
-5c465a19bb7a11ec952e8703dbeb1736 *inst/extdata/input_geno1.csv
-f59c04dee10c5bd245dff25742cbcc40 *inst/extdata/input_geno1.txt
-93cd40ad65198ed5c3f8187af57f1059 *inst/extdata/male_name.csv
-2694c07e323324692b0fdd442482fcbf *inst/extdata/parent_phe.csv
 e0cac74286cb2d1f211e32706cb6052a *man/hybrid_phe.Rd
 fd15e5d73faaaee9f530a5e055c5dc49 *man/input_geno.Rd
 604bd89fdf7308dcf442fd427a7a53b0 *man/input_geno1.Rd

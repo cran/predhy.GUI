@@ -2,7 +2,7 @@ Package: predhy.GUI
 Type: Package
 Title: Genomic Prediction of Hybrid Performance with Graphical User
         Interface
-Version: 2.0
+Version: 2.0.1
 Authors@R: 
      c(
      person("Yang","Xu",email="xuyang_89@126.com",role=c("aut")),
@@ -22,9 +22,9 @@ Depends: R (>= 4.1.0)
 Imports: shiny, data.table, DT, predhy(>= 2.1), BGLR, pls, glmnet,
         xgboost, lightgbm, foreach, doParallel, parallel, htmltools
 NeedsCompilation: no
-Packaged: 2024-05-27 07:57:38 UTC; Dell
+Packaged: 2024-06-17 06:29:36 UTC; Dell
 Repository: CRAN
-Date/Publication: 2024-05-27 08:20:02 UTC
+Date/Publication: 2024-06-17 06:50:02 UTC
 Author: Yang Xu [aut],
   Guangning Yu [aut],
   Yuxiang Zhang [aut, cre],
