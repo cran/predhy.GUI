@@ -9,6 +9,34 @@
 predhy.GUI <- function(){
   if(interactive()){
     ui <- fluidPage(navbarPage(title = h3('Predhy'),
+	       tabPanel(h4('convertgen'),
+           navlistPanel(widths = c(3,9),
+              tabPanel(h2('Convert Genotype'),title = 'Description',
+                       helpText('Convert genotypes in HapMap format or in numeric format for predhy package.')),
+              tabPanel(h2('Input genotype'),title = 'Input files',
+                 fluidRow(column(width = 5,selectInput('type',label=h4('file type'),
+                                 choices = list('HapMap format with single bit'='hHapMap format with single bit',
+                                                'HapMap format with double bit'='HapMap format with double bit',
+                                                'numeric format'='numeric format'))),
+                          column(width = 7,helpText('the type of genotype. There are three options: "hmp1" for genotypes in HapMap format with single bit, 
+                                                    "hmp2" for genotypes in HapMap format with double bit, and "num" for genotypes in numeric format.'))),
+                 fluidRow(column(width=5,fileInput('geno',label = h4('input_geno'))),
+                          column(width=7,helpText('genotype in HapMap format or in numeric format. 
+                                                  The names of individuals should be provided. Missing (NA) values are allowed.')))),
+              tabPanel(h2('Parameters for SNPs'),title = 'Parameters',
+                 fluidRow(column(width = 4,sliderInput('missingrate',label=h4('missingrate'),
+                                                       min=0,max=0.3,value=0.2)),
+                          column(width = 8,helpText('max missing percentage for each SNP, default is 0.2.'))),
+                 fluidRow(column(width = 4,sliderInput('maf',label=h4('maf'),
+                                                       min=0,max=0.2,value=0.05)),
+                          column(width = 8,helpText('minor allele frequency for each SNP, default is 0.05.'))),
+                 fluidRow(column(width = 6,checkboxInput('impute',label='Impute',value = TRUE)),
+                          column(width = 8,helpText('logical. If TRUE, imputation. Default is TRUE.')))),
+              tabPanel(h4('Converted genotype'),title = 'Results',
+                 fluidRow(column(width=6, actionButton("calculate_convertgen", "Start calculation", icon = icon("play")))),
+                 fluidRow(column(width=12,DT::dataTableOutput('convertview'))),
+                 fluidRow(column(width=6,downloadLink('convered',label=h4('Download Genotype'))))))),
+				 
           tabPanel(h4('cv'),
           navlistPanel(widths = c(3,9),
           tabPanel(h2('Evaluate Trait Predictability via Cross Validation'),title = 'Description',
@@ -35,7 +63,7 @@ predhy.GUI <- function(){
              fluidRow(column(width=4,radioButtons('cvgendinput',label=h4('domiance genotypes(Optional)'),
                                          c('Not included'='NULL','Include domiance genotypes'='input'))))),
           tabPanel(h2('Select models & other parameters'),title = 'Parameters',
-             fluidRow(column(width=6,selectInput('cvmethod',label=h4('method,eight GS methods'),
+             fluidRow(column(width=6,selectInput('cvmethod',label=h4('GS methods'),
                                          choices = list('GBLUP'='GBLUP','BayesB'='BayesB',
                                                    'RKHS'='RKHS','PLS'='PLS',
                                                    'LASSO'='LASSO','EN'='EN',
@@ -45,10 +73,12 @@ predhy.GUI <- function(){
              fluidRow(column(width=4,numericInput('ntimes',label=h4('replicates'), value = 1)),
                                   column(width=4,numericInput('cvseed',label=h4('the random number'),value = 133))),
              fluidRow(column(width=4,numericInput('cpu',label=h4('the number of CPU'), value = 1)))),
-                      tabPanel(h2('Trait predictability (R^2)'),title = 'CV Results',
-             fluidRow(column(width=4,h3(textOutput('cv1')))),
+                      tabPanel(h2('Trait predictability (R_Square)'),title = 'Results',
+             fluidRow(column(width=6, actionButton("calculate_cv", "Start calculation", icon = icon("play")))),
+             fluidRow(column(width=12,h3(textOutput('cv1')))),
              fluidRow(column(width=12,plotOutput('cvp'))))
                                     )),
+									
           tabPanel(h4('predhy.predict'),
           navlistPanel(widths = c(3,9),
              tabPanel(h2('Predict the Performance of Hybrids'),title = 'Description',
@@ -66,13 +96,13 @@ predhy.GUI <- function(){
                          column(width=8,conditionalPanel(condition = 'input.inbredpheinput1=="input"',
                                                          fileInput('inbred_phe1',label=h4('Parent Phenotype')))))),
              tabPanel(h2('Select methods & models'),title = 'Methods & Models',
-                fluidRow(column(width=6,selectInput('method',label=h4('method,eight GS methods'),
+                fluidRow(column(width=6,selectInput('method',label=h4('GS methods'),
                                          choices = list('GBLUP'='GBLUP','BayesB'='BayesB',
                                          'RKHS'='RKHS','PLS'='PLS',
                                          'LASSO'='LASSO','EN'='EN',
                                          'XGBoost'='XGBoost','LightGBM'='LightGBM'),
                                           selected = 'GBLUP'))),
-                fluidRow(column(width = 6,selectInput('model',label=h4('the prediction model'),
+                fluidRow(column(width = 6,selectInput('model',label=h4('GS models'),
                                           choices = list('the additive model'='A',
                                                          'the additive-dominance model'='AD',
                                                          'the additive-phenotypic model'='A-P',
@@ -86,8 +116,10 @@ predhy.GUI <- function(){
                 fluidRow(column(width=6,numericInput('number',label=h4('the number of selected top or bottom hybrids,only when select = "top" or select = "bottom".'),
                                                      value = 100)))),
              tabPanel(h2('Phenotypic values of the predicted hybrids'),title='Phenotypic values',
-                fluidRow(column(width = 6,downloadLink('predres',label = h4('Predict & Download Results')))),
+                fluidRow(column(width=6, actionButton("calculate_p", "Start calculation", icon = icon("play")))),
+                fluidRow(column(width = 6,downloadLink('predres',label = h4('Download Results')))),
                 fluidRow(column(width=12,DT::dataTableOutput('predhyres1')))))),
+				
           tabPanel(h4('predhy.predict_NCII'),
           navlistPanel(widths = c(3,9),
              tabPanel(h2('Predict the Performance of Hybrids'),title = 'Description',
@@ -110,12 +142,12 @@ predhy.GUI <- function(){
                 fluidPage(column(width = 6,fileInput('female_name',label = h4('female_name'))),
                           column(width = 6,helpText('a vector of the names of female parents.')))),
              tabPanel(h2('Select methods & models'),title = 'Methods & Models',
-                fluidRow(column(width=6,selectInput('method_NCII',label=h4('method,eight GS methods'),
+                fluidRow(column(width=6,selectInput('method_NCII',label=h4('GS methods'),
                                         choices = list('GBLUP'='GBLUP','BayesB'='BayesB',
                                                        'RKHS'='RKHS','PLS'='PLS','LASSO'='LASSO','EN'='EN',
                                                        'XGBoost'='XGBoost','LightGBM'='LightGBM'),
                                                   selected = 'GBLUP'))),
-                fluidRow(column(width = 6,selectInput('model_NCII',label=h4('the prediction model'),
+                fluidRow(column(width = 6,selectInput('model_NCII',label=h4('GS models'),
                                 choices = list('the additive model'='A',
                                                'the additive-dominance model'='AD',
                                                'the additive-phenotypic model'='A-P',
@@ -129,35 +161,10 @@ predhy.GUI <- function(){
                 fluidRow(column(width=6,numericInput('number_NCII',label=h4('the number of selected top or bottom hybrids,only when select = "top" or select = "bottom".'),
                                                      value = 100)))),
              tabPanel(h2('Phenotypic values of the predicted hybrids'),title='Phenotypic values',
-                fluidRow(column(width = 6,downloadLink('predres_NCII',label = h4('Predict & Download Results')))),
+                fluidRow(column(width=6, actionButton("calculate_ncii", "Start calculation", icon = icon("play")))),
+                fluidRow(column(width = 6,downloadLink('predres_NCII',label = h4('Download Results')))),
                 fluidRow(column(width=12,DT::dataTableOutput('predhyres_NCII'))))
              )),
-           tabPanel(h4('convertgen'),
-           navlistPanel(widths = c(3,9),
-              tabPanel(h2('Convert Genotype'),title = 'Description',
-                       helpText('Convert genotypes in HapMap format or in numeric format for hybrid package.')),
-              tabPanel(h2('Input genotype'),title = 'Input files',
-                 fluidRow(column(width = 5,selectInput('type',label=h4('file type'),
-                                 choices = list('HapMap format with single bit'='hHapMap format with single bit',
-                                                'HapMap format with double bit'='HapMap format with double bit',
-                                                'numeric format'='numeric format'))),
-                          column(width = 7,helpText('the type of genotype. There are three options: "hmp1" for genotypes in HapMap format with single bit, 
-                                                    "hmp2" for genotypes in HapMap format with double bit, and "num" for genotypes in numeric format.'))),
-                 fluidRow(column(width=5,fileInput('geno',label = h4('input_geno'))),
-                          column(width=7,helpText('genotype in HapMap format or in numeric format. 
-                                                  The names of individuals should be provided. Missing (NA) values are allowed.')))),
-              tabPanel(h2('Parameters for SNPs'),title = 'Parameters',
-                 fluidRow(column(width = 4,sliderInput('missingrate',label=h4('missingrate'),
-                                                       min=0,max=0.3,value=0.2)),
-                          column(width = 8,helpText('max missing percentage for each SNP, default is 0.2.'))),
-                 fluidRow(column(width = 4,sliderInput('maf',label=h4('maf'),
-                                                       min=0,max=0.2,value=0.05)),
-                          column(width = 8,helpText('minor allele frequency for each SNP, default is 0.05.'))),
-                 fluidRow(column(width = 6,checkboxInput('impute',label='Impute',value = TRUE)),
-                          column(width = 8,helpText('logical. If TRUE, imputation. Default is TRUE.')))),
-              tabPanel(h4('Converted genotype'),title = 'Results',
-                 fluidRow(column(width=12,DT::dataTableOutput('convertview'))),
-                 fluidRow(column(width=6,downloadLink('convered',label=h4('Download Genotype'))))))),
           
           tabPanel(h4('crodesign'),
             navlistPanel(widths = c(3,9),
@@ -178,13 +185,14 @@ predhy.GUI <- function(){
                       ),
               
               tabPanel(h2('Results'),title = 'Results',
+                       fluidRow(column(width=6, actionButton("calculate_cd", "Start calculation", icon = icon("play")))),
                        fluidRow(column(width =4,downloadLink('crodesign_download',label = h4('Download crodesign')))),
                        fluidRow(column(width = 12,DT::dataTableOutput('crodesign'))))))
     ))
     
 ###################################server#######################################    
   server <- function(input, output) {
-    options(shiny.maxRequestSize=10*1024^3) #max upload = 10G
+    options(shiny.maxRequestSize=20*1024^3) #max upload = 20G
 ####################################cv##########################################    
   fix <- reactive({
     req(input$fix)
@@ -244,9 +252,12 @@ predhy.GUI <- function(){
   cpu <- reactive({
     input$cpu
   })
-
-  cvres <- reactive({
-    if(input$cvfixinput=='input'){
+  
+  cvres <- reactiveVal(NULL)
+  
+  observeEvent(input$calculate_cv, {
+    cvres(NULL)
+    result <- if(input$cvfixinput=='input'){
       if(input$cvgendinput=='input'){
         if(input$cvinbredpheinput=='input'){
           cv(fix=fix(),gena = gena(),gend = gend(),parent_phe = inbred_phe(),hybrid_phe =hybrid(),method=cvmethod(),nfold=nfold(),nTimes=ntimes(),seed=cvseed(),CPU=cpu(),drawplot = F)
@@ -259,7 +270,7 @@ predhy.GUI <- function(){
         }else{
           cv(fix=fix(),gena = gena(),gend = NULL,parent_phe = NULL,hybrid_phe=hybrid(),method=cvmethod(),nfold=nfold(),nTimes=ntimes(),seed=cvseed(),CPU=cpu(),drawplot = F)
         }
-
+        
       }
     }else{
       if(input$cvgendinput=='input'){
@@ -276,29 +287,38 @@ predhy.GUI <- function(){
         }
       }
     }
+    cvres(result)
   })
-
+  
+  
   output$cv1 <- renderText({
-    if(cvmethod()!='ALL'){
-      paste(cvmethod(),'R^2=',mean(cvres()))}
+    if (is.null(cvres()) & cvmethod() != 'ALL') {
+      "Calculation in progress. Please wait..."
+    } else if (!is.null(cvres()) & cvmethod() != 'ALL') {
+      paste(cvmethod(), 'R_Square =', round(mean(cvres()), 4))
+    } else {
+      ""
+    }
   })
-
-  output$cvp <-renderPlot({
-    if(cvmethod()=='ALL'){
+  
+  output$cvp <- renderPlot({
+    if(cvmethod() == 'ALL' & !is.null(cvres())){
       mycolor <- c("#66C2A5", "#FC8D62", "#8DA0CB", "#E78AC3", "#A6D854", "#FFD92F", "#E5C494", "#B3B3B3")
-      plotres <- function(d){
-        names <- attr(d,'dimnames')[[2]]
-        attr(d,'dimnames') <- NULL
+      plotres <- function(d) {
+        names <- attr(d, 'dimnames')[[2]]
+        attr(d, 'dimnames') <- NULL
         d <- as.matrix(d)
-        d <- apply(d,2,mean)
-        barplot(height = d,names.arg = names,col=mycolor,las=2,ylim = c(0,max(d)+0.05),xlim=c(0,10),
-                main = 'Trait predictability of 8 methods',ylab = "R2")
-        locat <- seq(0.75,9,length.out=8)
-        text(locat,d+0.015,round(d,3),cex=0.9)
+        d <- apply(d, 2, mean)
+        barplot(height = d, names.arg = names, col = mycolor, las = 2, 
+                ylim = c(0, max(d) + 0.05), xlim = c(0, 10),
+                main = 'Trait predictability of 8 methods', ylab = "R_Square")
+        locat <- seq(0.75, 9, length.out = 8)
+        text(locat, d + 0.015, round(d, 3), cex = 0.9)
       }
       plotres(cvres())
     }
   })
+  
   #####################################predhy.predict#############################  
   inbred_gen <-reactive({
     req(input$inbred_gen)
@@ -341,13 +361,17 @@ predhy.GUI <- function(){
   
   number <- reactive({ifelse(select()=='all',NULL,input$number)})
   
-  pred <- reactive({
-    if(input$inbredpheinput1=='input'){
-      predhy.predict(inbred_gen(),hybrid_phe = hybrid_phe(),parent_phe = inbred_phe1(),method(),model(),select(),number())
-    }else{
-      predhy.predict(inbred_gen(),hybrid_phe = hybrid_phe(),parent_phe = NULL,method(),model(),select(),number())
-    }
+  pred <- reactiveVal(NULL)
+  
+  observeEvent(input$calculate_p, {
+    result <- if(input$inbredpheinput1=='input'){
+           predhy.predict(inbred_gen(),hybrid_phe = hybrid_phe(),parent_phe = inbred_phe1(),method(),model(),select(),number())
+         }else{
+           predhy.predict(inbred_gen(),hybrid_phe = hybrid_phe(),parent_phe = NULL,method(),model(),select(),number())
+         }
+    pred(result)
   })
+  
   
   output$predhyres1 <- DT::renderDataTable({
     pred()
@@ -413,21 +437,25 @@ predhy.GUI <- function(){
   
   number_NCII <- reactive({ifelse(select_NCII() == 'all',NULL,input$number_NCII)})
   
-  pred_NCII <- reactive({
-    if(input$inbredpheinput2=='input'){
-    predhy.predict_NCII(inbred_gen = inbred_gen_NCII(),hybrid_phe = hybrid_phe_NCII(),
-                        parent_phe = inbred_phe2(),
-                        male_name = male_name(),female_name = female_name(),
-                        method = method_NCII(),model = model_NCII(),
-                        select = select_NCII(),number = number_NCII())
-    }else{
-    predhy.predict_NCII(inbred_gen = inbred_gen_NCII(),hybrid_phe = hybrid_phe_NCII(),
-                        parent_phe = NULL,
-                        male_name = male_name(),female_name = female_name(),
-                        method = method_NCII(),model = model_NCII(),
-                        select = select_NCII(),number = number_NCII())
+  pred_NCII <- reactiveVal(NULL)
+  
+  observeEvent(input$calculate_ncii, {
+    result <- if(input$inbredpheinput2=='input'){
+              predhy.predict_NCII(inbred_gen = inbred_gen_NCII(),hybrid_phe = hybrid_phe_NCII(),
+                          parent_phe = inbred_phe2(),
+                          male_name = male_name(),female_name = female_name(),
+                          method = method_NCII(),model = model_NCII(),
+                          select = select_NCII(),number = number_NCII())
+              }else{
+              predhy.predict_NCII(inbred_gen = inbred_gen_NCII(),hybrid_phe = hybrid_phe_NCII(),
+                          parent_phe = NULL,
+                          male_name = male_name(),female_name = female_name(),
+                          method = method_NCII(),model = model_NCII(),
+                          select = select_NCII(),number = number_NCII())
     }
+    pred_NCII(result)
   })
+  
   
   output$predhyres_NCII <- DT::renderDataTable({
     pred_NCII()
@@ -472,21 +500,27 @@ predhy.GUI <- function(){
     input$impute
   })
   
-  convert <- reactive({
-    convertgen(rawgene(),filetype(),missingrate(),maf(),impute())
+  convert_data <- reactiveVal(NULL)
+  
+  observeEvent(input$calculate_convertgen, {
+    result <- convertgen(rawgene(), filetype(), missingrate(), maf(), impute())
+    convert_data(result)
   })
   
   output$convered <- downloadHandler(
     filename = function() {
-      paste('convertgen results',Sys.Date(),".csv", sep = "")
+      paste('convertgen_results', Sys.Date(), ".csv", sep = "")
     },
     content = function(file) {
-      write.csv(convert(), file, row.names = T)
-    })
+      write.csv(convert_data(), file, row.names = TRUE)
+    }
+  )
   
   output$convertview <- DT::renderDataTable({
-    convert()
+    convert_data()
   })
+  
+  
 ##########################crodesign################################################
   seed_cd <- reactive({input$seed_cd})
   d <- reactive({input$d})
@@ -501,8 +535,11 @@ predhy.GUI <- function(){
     fix <-c(fread(input$female_parents_name$datapath,header = T,stringsAsFactors=F))[[1]]
   })
   
-  crodesignres <- reactive({
-    crodesign(d(),male_names(),female_names(),seed = seed_cd())
+  crodesignres <- reactiveVal(NULL)
+  
+  observeEvent(input$calculate_cd, {
+    result <- crodesign(d(),male_names(),female_names(),seed = seed_cd())
+    crodesignres(result)
   })
   
   output$crodesign <- DT::renderDataTable({

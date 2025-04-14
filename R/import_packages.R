@@ -1,5 +1,5 @@
-# * Author:    Yang.Xu 
-# * Created:   11:40 PM Monday, 22 April 2024
+# * Author:    Yang Xu 
+# * Created:   11:40 PM Tuesday, 15 April 2025
 # * Copyright: AS IS
 #' @importFrom stats cor dist optim predict na.omit var 
 #' @importFrom utils write.csv  
@@ -14,7 +14,7 @@
 #' @importFrom graphics barplot text
 #' @importFrom predhy cv convertgen predhy.predict predhy.predict_NCII infergen kin mixed crodesign
 #' @importFrom data.table fread
-#' @importFrom shiny fluidPage navbarPage tabPanel req navlistPanel fluidRow fileInput helpText column radioButtons conditionalPanel selectInput numericInput textOutput plotOutput downloadHandler downloadLink sliderInput checkboxInput reactive renderText renderPlot shinyApp 
+#' @importFrom shiny fluidPage navbarPage tabPanel req navlistPanel fluidRow fileInput helpText column radioButtons conditionalPanel selectInput numericInput textOutput plotOutput downloadHandler downloadLink sliderInput checkboxInput reactive renderText renderPlot shinyApp actionButton icon reactiveVal observeEvent 
 #' @importFrom DT dataTableOutput renderDataTable
 #' @importFrom htmltools h2 h3 h4 code 
 NULL
