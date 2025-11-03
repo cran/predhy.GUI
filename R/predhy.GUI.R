@@ -8,7 +8,22 @@
 
 predhy.GUI <- function(){
   if(interactive()){
-    ui <- fluidPage(navbarPage(title = h3('Predhy'),
+    ui <- fluidPage(navbarPage(title = h3('predhy'),
+	       tabPanel(h4('Introduction'),
+		     helpText(h2('Performs Genomic Prediction of Hybrid Performance With Graphical User Interface', align = "center")),
+             helpText(h4('
+                         Performs genomic prediction of hybrid performance using eight statistical methods including GBLUP, 
+                         BayesB, RKHS, PLS, LASSO, EN, LightGBM and XGBoost along with additive and additive-dominance models. 
+                         Users are able to incorporate parental phenotypic information in all methods based on their specific needs.
+                         '),
+                      h4('1. Xu S. Predicted Residual Error Sum of Squares of Mixed Models: An Application for Genomic Prediction. G3 (Bethesda). 2017 Mar 10;7(3):895-909. doi: 10.1534/g3.116.038059. 
+                         '),
+                      h4('2. Xu, Y., Zhao, Y., Wang, X., Ma, Y., Li, P., Yang, Z., Zhang, X., Xu, C.and Xu, S. (2021) Incorporation of parental phenotypic data into multi-omic models improves prediction of yield-related traits in hybrid rice. Plant Biotechnol J, https://doi.org/10.1111/pbi.13458 ')
+                      ),
+		                  h4('Authors: Yang Xu, Guangning Yu, Yuxiang Zhang, Yanru Cui, Shizhong Xu, Chenwu Xu'),
+		                  h4('predhy.GUI version 2.1.1, Realeased October 2025')
+					  ),
+					  
 	       tabPanel(h4('convertgen'),
            navlistPanel(widths = c(3,9),
               tabPanel(h2('Convert Genotype'),title = 'Description',

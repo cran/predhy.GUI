@@ -1,14 +1,14 @@
-107d7248cae69e152dd751f2b5647473 *DESCRIPTION
+553dd144c2b9e2a33aacf3c3cdeb27ca *DESCRIPTION
 2af912e0b1bdce4cb8cfdcd122b566e2 *NAMESPACE
 eebafa07d3ddb5e196b236f07bd9560c *R/hybrid_phe.R
 55e8e9367a3061ef0dde1b727b16d44a *R/import_packages.R
 ca3c303eb54f851563d064cd3eed5dab *R/input_geno.R
 fb5f4b9543848d83b5bd79663cbd3942 *R/input_geno1.R
-bc691aecbe6d59d033f908178c78e8cf *R/predhy.GUI.R
+5a1abe694d7203719fdf87d13bb43d5c *R/predhy.GUI.R
 3cd0041b4e62b516f8bffed0ce7966ed *data/hybrid_phe.rda
 106cade93de43027fb1574093eb48e35 *data/input_geno.rda
 6c670a179191968c1788d628966cd68b *data/input_geno1.rda
-61cc55fd35dac398b9cfc556a7fc6028 *inst/manual/Introduction.pdf
+77ff5c6b8dc0d899e9f5236a464d0c64 *inst/manual/Introduction.pdf
 e0cac74286cb2d1f211e32706cb6052a *man/hybrid_phe.Rd
 fd15e5d73faaaee9f530a5e055c5dc49 *man/input_geno.Rd
 604bd89fdf7308dcf442fd427a7a53b0 *man/input_geno1.Rd
